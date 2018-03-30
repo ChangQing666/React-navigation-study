@@ -172,9 +172,16 @@ class HomeScreen extends React.Component{
 
         return{
             headerTitle:<LogoTitle/>,
+            headerLeft:(
+              <Button
+                onPress={()=>navigation.navigate('MyModal')}
+                title='点击出弹窗'
+                color='#fff'
+              />
+            ),
             headerRight:(
                 <Button
-                  onPress = {params.increaseCount} title='+1' color='#fff'
+                  onPress = {params.increaseCount} title='点击+1' color='#fff'
                 />
             )
         }
@@ -195,7 +202,7 @@ class HomeScreen extends React.Component{
         return(
             <View style={{flex:1,alignItems:'center',justifyContent:'center',}}>
                 <Text style={{color:'#ff6600'}}>Home Screen</Text>
-                <Text>Count:{this.state.count}</Text>
+                <Text>Count:<Text style={{color:'#6b52ae'}}>{this.state.count}</Text></Text>
                 <Button
                     title="跳转到detail页面"
                     color='#9900ff'
@@ -204,6 +211,19 @@ class HomeScreen extends React.Component{
                             itemId:88,
                             otherParam:'anything you want here',
                         })}}
+                />
+            </View>
+        )
+    }
+}
+class ModalScreen extends React.Component{
+    render(){
+        return(
+            <View style={{flex:1,alignItems:'center',justifyContent:'center'}}>
+                <Text style={{fontSize:35}}>This is a modal!</Text>
+                <Button
+                  onPress={()=>this.props.navigation.goBack()}
+                  title='Dismiss'
                 />
             </View>
         )
@@ -246,14 +266,14 @@ class DetailScreen extends React.Component{
   }
 }
 
-export default StackNavigator(
+const MainStack = StackNavigator(
     {
         Home:{
             screen:HomeScreen,
         },
         Details:{
           screen:DetailScreen,
-        },
+        }
     },
     {
         initialRouteName:'Home',
@@ -268,7 +288,20 @@ export default StackNavigator(
         }
     }
 )
-
+const RootStack = StackNavigator(
+    {
+        Main:{
+            screen:MainStack,
+        },
+        MyModal:{
+            screen:ModalScreen,
+        }
+    },{
+       mode:'mode',
+       headerMode:'none',
+    }
+)
+export default RootStack;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
